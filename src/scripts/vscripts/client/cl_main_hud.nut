@@ -202,7 +202,7 @@ void function StatsWatermark()
 		// Wait a frame, so no errors :D
 		WaitFrame();
 		// Make a text segment.
-		rui = RuiCreate( $"ui/cockpit_console_text_bottom_left.rpak", clGlobal.topoCockpitHudPermanent, RUI_DRAW_COCKPIT, 0 )
+		rui = RuiCreate( $"ui/cockpit_console_text_top_left.rpak", clGlobal.topoCockpitHudPermanent, RUI_DRAW_COCKPIT, 0 )
 		// Set up text segment? yea sure why not
 		RuiSetInt( rui, "maxLines", 1 )
 		RuiSetInt( rui, "lineNum", 1 )
