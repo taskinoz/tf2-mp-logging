@@ -218,7 +218,7 @@ void function StatsWatermark()
 		RuiSetFloat( rui, "msgAlpha", 0.9 )
 		// ????
 		RuiSetFloat( rui, "thicken", 0.0 )
-		RuiSetString(rui, "msgText", (GameRules_GetGameMode()).slice(0,2)+"-PL-"+GetPlayerArray() );
+		RuiSetString(rui, "msgText", (GameRules_GetGameMode()).slice(0,2)+"-PL-"+GetPlayerArray().len() );
 	}
 }
 
