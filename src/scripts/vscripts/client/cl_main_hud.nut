@@ -63,7 +63,7 @@ const float OFFHAND_ALERT_ICON_SCALE = 4.5
 
 const bool ALWAYS_SHOW_BOOST_MOBILITY_BAR = true
 
-var rui
+var watermark
 
 struct {
 	table crosshairPriorityLevel
@@ -80,7 +80,7 @@ function ClMainHud_Init()
 	if ( IsMenuLevel() )
 		return
 
-	thread StatsWatermark()
+	thread initWatermark()
 
 	PrecacheHUDMaterial( TEAM_ICON_IMC )
 	PrecacheHUDMaterial( TEAM_ICON_MILITIA )
@@ -195,30 +195,37 @@ function MainHud_AddClient( entity player )
 	thread ClientHudInit( player )
 }
 
-void function StatsWatermark()
+void function initWatermark()
+{
+	// Wait a frame, so no errors :D
+	WaitFrame()
+	// Make a text segment.
+	watermark = RuiCreate( $"ui/cockpit_console_text_top_left.rpak", clGlobal.topoCockpitHudPermanent, RUI_DRAW_COCKPIT, 0 )
+	// Set up text segment? yea sure why not
+	RuiSetInt( watermark, "maxLines", 1 )
+	RuiSetInt( watermark, "lineNum", 1 )
+	// Position
+	RuiSetFloat2( watermark, "msgPos", <0.05, 0.93, 0.0> )
+	// Color :3
+	//RuiSetFloat3( rui, "msgColor", <1.0, 0.0, 0.0> )
+	// Display text
+	RuiSetString( watermark, "msgText", "" )
+	// Font size
+	RuiSetFloat( watermark, "msgFontSize", 30 )
+	// Alpha cause it cewl
+	RuiSetFloat( watermark, "msgAlpha", 0.9 )
+	// ????
+	RuiSetFloat( watermark, "thicken", 0.0 )
+	//RuiSetString(watermark, "msgText", GameRules_GetGameMode()+"-PL-"+GetPlayerArray().len() )
+	thread statsWatermark()
+}
+
+void function statsWatermark()
 {
 	while (true)
 	{
-		// Wait a frame, so no errors :D
-		WaitFrame();
-		// Make a text segment.
-		rui = RuiCreate( $"ui/cockpit_console_text_top_left.rpak", clGlobal.topoCockpitHudPermanent, RUI_DRAW_COCKPIT, 0 )
-		// Set up text segment? yea sure why not
-		RuiSetInt( rui, "maxLines", 1 )
-		RuiSetInt( rui, "lineNum", 1 )
-		// Position
-		RuiSetFloat2( rui, "msgPos", <0.1, 0.1, 0.0> )
-		// Color :3
-		//RuiSetFloat3( rui, "msgColor", <1.0, 0.0, 0.0> )
-		// Display text
-		RuiSetString( rui, "msgText", "" )
-		// Font size
-		RuiSetFloat( rui, "msgFontSize", 80.0 )
-		// Alpha cause it cewl
-		RuiSetFloat( rui, "msgAlpha", 0.9 )
-		// ????
-		RuiSetFloat( rui, "thicken", 0.0 )
-		RuiSetString(rui, "msgText", (GameRules_GetGameMode()).slice(0,2)+"-PL-"+GetPlayerArray().len() );
+		WaitFrame()
+		RuiSetString(watermark, "msgText", GameRules_GetGameMode()+"-PL-"+GetPlayerArray().len() )
 	}
 }
 
